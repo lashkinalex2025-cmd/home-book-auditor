@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -19,6 +19,12 @@ interface BookFormProps {
   initial?: Book;
   onSubmit: (values: BookFormValues) => Promise<void>;
   submitLabel?: string;
+}
+
+function toNullableNumber(value: unknown): number | null {
+  if (value === '' || value == null) return null;
+  const n = typeof value === 'number' ? value : Number(value);
+  return Number.isFinite(n) ? n : null;
 }
 
 export function BookForm({
@@ -61,7 +67,7 @@ export function BookForm({
           status: initial.status,
           rating: initial.rating,
           notes: initial.notes,
-          tags: initial.tags,
+          tags: initial.tags ?? [],
           coverDataUrl: initial.coverDataUrl,
           isFavorite: initial.isFavorite,
         }
@@ -89,12 +95,8 @@ export function BookForm({
   });
 
   const cover = watch('coverDataUrl');
-  const tags = watch('tags');
+  const tags = watch('tags') ?? [];
   const title = watch('title');
-
-  useEffect(() => {
-    if (initial?.id == null) return;
-  }, [initial?.id]);
 
   async function handleImage(file: File | undefined) {
     if (!file) return;
@@ -264,7 +266,7 @@ export function BookForm({
                 type="number"
                 className="input"
                 {...register('year', {
-                  setValueAs: (v) => (v === '' || v == null ? null : Number(v)),
+                  setValueAs: toNullableNumber,
                 })}
               />
             </div>
@@ -289,7 +291,7 @@ export function BookForm({
                 type="number"
                 className="input"
                 {...register('pages', {
-                  setValueAs: (v) => (v === '' || v == null ? null : Number(v)),
+                  setValueAs: toNullableNumber,
                 })}
               />
             </div>
@@ -314,7 +316,7 @@ export function BookForm({
                 step="0.01"
                 className="input"
                 {...register('price', {
-                  setValueAs: (v) => (v === '' || v == null ? null : Number(v)),
+                  setValueAs: toNullableNumber,
                 })}
               />
             </div>

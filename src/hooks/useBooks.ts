@@ -7,10 +7,11 @@ export function useBooks(): Book[] {
   return books ?? [];
 }
 
-export function useBook(id: number | undefined): Book | undefined {
-  const book = useLiveQuery(
-    () => (id != null && !Number.isNaN(id) ? db.books.get(id) : undefined),
-    [id],
-  );
-  return book;
+/** undefined = loading, null = not found, Book = found */
+export function useBook(id: number | undefined): Book | null | undefined {
+  return useLiveQuery(async () => {
+    if (id == null || Number.isNaN(id)) return null;
+    const book = await db.books.get(id);
+    return book ?? null;
+  }, [id]);
 }

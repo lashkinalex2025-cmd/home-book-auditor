@@ -30,12 +30,27 @@ export function BookFormPage() {
     }
   }
 
-  if (!isNew && bookId != null && book === undefined) {
+  if (!isNew && (bookId == null || Number.isNaN(bookId))) {
+    return <p className="text-rose-500">Некорректный идентификатор книги</p>;
+  }
+
+  if (!isNew && book === undefined) {
     return <p className="page-subtitle">Загрузка…</p>;
   }
 
-  if (!isNew && bookId != null && book === null) {
-    return <p className="text-rose-500">Книга не найдена</p>;
+  if (!isNew && book === null) {
+    return (
+      <div className="space-y-3">
+        <p className="text-rose-500">Книга не найдена</p>
+        <button
+          type="button"
+          className="btn-primary"
+          onClick={() => navigate('/library')}
+        >
+          В библиотеку
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -53,7 +68,7 @@ export function BookFormPage() {
       </header>
 
       <BookForm
-        initial={isNew ? undefined : book}
+        initial={isNew || !book ? undefined : book}
         onSubmit={handleSubmit}
         submitLabel={isNew ? 'Добавить книгу' : 'Сохранить'}
       />

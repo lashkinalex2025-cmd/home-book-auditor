@@ -23,11 +23,22 @@ export function BookDetailPage() {
   const { toast } = useToast();
   const { settings } = useSettings();
 
+  if (Number.isNaN(bookId)) {
+    return (
+      <div className="space-y-4">
+        <p className="text-rose-500">Некорректный идентификатор книги</p>
+        <Link to="/library" className="btn-primary">
+          В библиотеку
+        </Link>
+      </div>
+    );
+  }
+
   if (book === undefined) {
     return <p className="page-subtitle">Загрузка…</p>;
   }
 
-  if (!book) {
+  if (book === null) {
     return (
       <div className="space-y-4">
         <p className="text-rose-500">Книга не найдена</p>

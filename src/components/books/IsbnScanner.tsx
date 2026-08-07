@@ -18,6 +18,8 @@ export function IsbnScanner({ onResult, onClose }: IsbnScannerProps) {
   const [manual, setManual] = useState('');
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const started = useRef(false);
+  const onResultRef = useRef(onResult);
+  onResultRef.current = onResult;
 
   useEffect(() => {
     const id = 'isbn-reader';
@@ -33,7 +35,7 @@ export function IsbnScanner({ onResult, onClose }: IsbnScannerProps) {
           (decoded) => {
             const isbn = normalizeIsbn(decoded);
             if (isbn) {
-              onResult(isbn);
+              onResultRef.current(isbn);
             }
           },
           () => undefined,
@@ -59,7 +61,7 @@ export function IsbnScanner({ onResult, onClose }: IsbnScannerProps) {
           .catch(() => undefined);
       }
     };
-  }, [onResult]);
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center">

@@ -54,6 +54,13 @@ export function sanitizeText(value: unknown, max = 500): string {
   return out;
 }
 
+function toOptionalNumber(value: unknown, integer: boolean): number | null {
+  if (value === '' || value === undefined || value === null) return null;
+  const n = typeof value === 'number' ? value : Number(String(value).replace(',', '.'));
+  if (!Number.isFinite(n)) return null;
+  return integer ? Math.trunc(n) : n;
+}
+
 export function sanitizeBookImport(raw: unknown): BookFormValues | null {
   if (!raw || typeof raw !== 'object') return null;
   const o = raw as Record<string, unknown>;
@@ -71,23 +78,17 @@ export function sanitizeBookImport(raw: unknown): BookFormValues | null {
     genre: sanitizeText(o.genre, 100),
     isbn: sanitizeText(o.isbn, 20),
     publisher: sanitizeText(o.publisher, 200),
-    year:
-      yearRaw === '' || yearRaw === undefined || yearRaw === null
-        ? null
-        : Number(yearRaw),
+    year: toOptionalNumber(yearRaw, true),
     language: sanitizeText(o.language, 50) || 'ru',
-    pages:
-      pagesRaw === '' || pagesRaw === undefined || pagesRaw === null
-        ? null
-        : Number(pagesRaw),
+    pages: toOptionalNumber(pagesRaw, true),
     purchaseDate: sanitizeText(o.purchaseDate, 30),
-    price:
-      priceRaw === '' || priceRaw === undefined || priceRaw === null
-        ? null
-        : Number(priceRaw),
+    price: toOptionalNumber(priceRaw, false),
     location: sanitizeText(o.location, 200),
     status: typeof o.status === 'string' ? o.status : 'owned',
-    rating: ratingRaw === undefined || ratingRaw === null ? 0 : Number(ratingRaw),
+    rating: (() => {
+      const n = toOptionalNumber(ratingRaw, false);
+      return n == null ? 0 : Math.min(5, Math.max(0, n));
+    })(),
     notes: sanitizeText(o.notes, 5000),
     tags: Array.isArray(o.tags)
       ? o.tags
