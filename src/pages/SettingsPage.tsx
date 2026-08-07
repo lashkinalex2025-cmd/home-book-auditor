@@ -283,6 +283,7 @@ export function SettingsPage() {
       <section className="card space-y-2 p-5 text-sm text-slate-500">
         <h2 className="font-semibold text-slate-800 dark:text-slate-100">О приложении</h2>
         <p>Домашний книжный аудитор v1.0.0</p>
+        <p>Разработчик: Alex Lashkin · 2026</p>
         <p>Данные хранятся локально (IndexedDB). PWA · офлайн · Capacitor Android.</p>
         <p className="text-xs">
           Установите приложение через «Добавить на главный экран» или соберите APK через

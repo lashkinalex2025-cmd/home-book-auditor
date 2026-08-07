@@ -75,6 +75,9 @@ export function BottomNav() {
           </li>
         ))}
       </ul>
+      <p className="pb-1.5 pt-0.5 text-center text-[10px] leading-none text-slate-400 dark:text-slate-500">
+        Alex Lashkin · 2026
+      </p>
     </nav>
   );
 }
