@@ -1,0 +1,7 @@
+dist
+dev-dist
+node_modules
+android
+coverage
+package-lock.json
+*.min.js

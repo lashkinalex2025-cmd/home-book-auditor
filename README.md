@@ -28,8 +28,8 @@
 
 > Место для скриншотов: добавьте изображения в `docs/screenshots/` и вставьте сюда.
 
-| Главная | Библиотека | Статистика |
-|---------|------------|------------|
+| Главная      | Библиотека   | Статистика   |
+| ------------ | ------------ | ------------ |
 | _screenshot_ | _screenshot_ | _screenshot_ |
 
 ## Быстрый старт
@@ -69,14 +69,14 @@ src/
   types/        # Book, settings, statuses
 ```
 
-- **UI:** React 19 + TypeScript + Tailwind + Framer Motion + Heroicons  
-- **Forms:** React Hook Form + Zod  
-- **Storage:** IndexedDB via Dexie (local-only, no backend)  
-- **Routing:** React Router (HashRouter — совместимо с GitHub Pages)  
-- **PWA:** vite-plugin-pwa (Workbox, autoUpdate)  
-- **Charts:** Chart.js  
-- **Lists:** @tanstack/react-virtual для больших коллекций  
-- **Mobile:** Capacitor 7  
+- **UI:** React 19 + TypeScript + Tailwind + Framer Motion + Heroicons
+- **Forms:** React Hook Form + Zod
+- **Storage:** IndexedDB via Dexie (local-only, no backend)
+- **Routing:** React Router (HashRouter — совместимо с GitHub Pages)
+- **PWA:** vite-plugin-pwa (Workbox, autoUpdate)
+- **Charts:** Chart.js
+- **Lists:** @tanstack/react-virtual для больших коллекций
+- **Mobile:** Capacitor 7
 
 ### Безопасность
 
@@ -139,16 +139,16 @@ npx cap open android
 
 ## Структура репозитория
 
-| Файл | Назначение |
-|------|------------|
-| `package.json` | зависимости и скрипты |
-| `vite.config.ts` | Vite + PWA + chunks |
-| `capacitor.config.ts` | Android shell |
-| `eslint.config.js` / `prettier.config.js` | качество кода |
-| `.github/workflows/ci.yml` | lint, test, build, Pages |
-| `LICENSE` | MIT |
-| `CHANGELOG.md` | история версий |
-| `CONTRIBUTING.md` | вклад в проект |
+| Файл                                      | Назначение               |
+| ----------------------------------------- | ------------------------ |
+| `package.json`                            | зависимости и скрипты    |
+| `vite.config.ts`                          | Vite + PWA + chunks      |
+| `capacitor.config.ts`                     | Android shell            |
+| `eslint.config.js` / `prettier.config.js` | качество кода            |
+| `.github/workflows/ci.yml`                | lint, test, build, Pages |
+| `LICENSE`                                 | MIT                      |
+| `CHANGELOG.md`                            | история версий           |
+| `CONTRIBUTING.md`                         | вклад в проект           |
 
 ## Лицензия
 

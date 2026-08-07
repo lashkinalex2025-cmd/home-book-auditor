@@ -11,8 +11,7 @@ export function getPushSupport(): {
   serviceWorker: boolean;
 } {
   const supported = typeof window !== 'undefined' && 'Notification' in window;
-  const serviceWorker =
-    typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
+  const serviceWorker = typeof navigator !== 'undefined' && 'serviceWorker' in navigator;
 
   return {
     supported,

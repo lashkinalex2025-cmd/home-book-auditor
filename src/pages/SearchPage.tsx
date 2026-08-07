@@ -30,9 +30,7 @@ export function SearchPage() {
     <div className="space-y-4">
       <header>
         <h1 className="page-title">Поиск</h1>
-        <p className="page-subtitle">
-          По названию, автору, ISBN, жанру, тегам и серии
-        </p>
+        <p className="page-subtitle">По названию, автору, ISBN, жанру, тегам и серии</p>
       </header>
 
       <div className="relative">

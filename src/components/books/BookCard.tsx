@@ -26,10 +26,15 @@ export const BookCard = memo(function BookCard({ book, size = 'md' }: BookCardPr
             {book.title}
           </h3>
           {book.isFavorite && (
-            <HeartIcon className="h-4 w-4 shrink-0 text-rose-500" aria-label="Избранное" />
+            <HeartIcon
+              className="h-4 w-4 shrink-0 text-rose-500"
+              aria-label="Избранное"
+            />
           )}
         </div>
-        <p className="mt-0.5 truncate text-sm text-slate-500">{book.author || 'Без автора'}</p>
+        <p className="mt-0.5 truncate text-sm text-slate-500">
+          {book.author || 'Без автора'}
+        </p>
         <div className="mt-2 flex flex-wrap items-center gap-1.5">
           <span
             className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${STATUS_COLORS[book.status]}`}

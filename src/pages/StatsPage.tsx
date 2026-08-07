@@ -47,7 +47,8 @@ export function StatsPage() {
   const stats = useMemo(() => computeStats(books), [books]);
 
   const tick = resolvedTheme === 'dark' ? '#94a3b8' : '#64748b';
-  const grid = resolvedTheme === 'dark' ? 'rgba(148,163,184,0.12)' : 'rgba(15,23,42,0.06)';
+  const grid =
+    resolvedTheme === 'dark' ? 'rgba(148,163,184,0.12)' : 'rgba(15,23,42,0.06)';
 
   if (!books.length) {
     return (
@@ -125,10 +126,7 @@ export function StatsPage() {
           label="Стоимость"
           value={`${stats.totalValue.toLocaleString('ru-RU')} ${settings.currency}`}
         />
-        <StatTile
-          label="Страниц"
-          value={stats.totalPages.toLocaleString('ru-RU')}
-        />
+        <StatTile label="Страниц" value={stats.totalPages.toLocaleString('ru-RU')} />
         <StatTile label="Читаю сейчас" value={String(stats.reading)} />
       </div>
 

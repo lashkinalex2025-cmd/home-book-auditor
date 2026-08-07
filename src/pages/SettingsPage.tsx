@@ -151,7 +151,9 @@ export function SettingsPage() {
             id="currency"
             className="input"
             value={settings.currency}
-            onChange={(e) => void updateSettings({ currency: e.target.value.slice(0, 5) })}
+            onChange={(e) =>
+              void updateSettings({ currency: e.target.value.slice(0, 5) })
+            }
           />
         </div>
       </section>
@@ -229,11 +231,19 @@ export function SettingsPage() {
             ? new Date(settings.lastBackupAt).toLocaleString('ru-RU')
             : 'ещё не создавалась'}
         </p>
-        <button type="button" className="btn-primary w-full" onClick={() => void handleBackup()}>
+        <button
+          type="button"
+          className="btn-primary w-full"
+          onClick={() => void handleBackup()}
+        >
           <CloudArrowDownIcon className="h-5 w-5" />
           Создать резервную копию
         </button>
-        <button type="button" className="btn-secondary w-full" onClick={() => void handleShare()}>
+        <button
+          type="button"
+          className="btn-secondary w-full"
+          onClick={() => void handleShare()}
+        >
           <ShareIcon className="h-5 w-5" />
           Поделиться / Web Share
         </button>
@@ -248,7 +258,11 @@ export function SettingsPage() {
           Поддержка: {push.supported ? 'да' : 'нет'} · SW:{' '}
           {push.serviceWorker ? 'да' : 'нет'} · право: {push.permission}
         </p>
-        <button type="button" className="btn-secondary w-full" onClick={() => void handlePush()}>
+        <button
+          type="button"
+          className="btn-secondary w-full"
+          onClick={() => void handlePush()}
+        >
           <BellIcon className="h-5 w-5" />
           Запросить разрешение (архитектура готова)
         </button>
@@ -256,7 +270,11 @@ export function SettingsPage() {
 
       <section className="card space-y-3 p-5">
         <h2 className="font-semibold text-rose-600 dark:text-rose-400">Опасная зона</h2>
-        <button type="button" className="btn-danger w-full" onClick={() => void handleClear()}>
+        <button
+          type="button"
+          className="btn-danger w-full"
+          onClick={() => void handleClear()}
+        >
           <TrashIcon className="h-5 w-5" />
           Очистить базу книг
         </button>

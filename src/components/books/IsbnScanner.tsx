@@ -76,7 +76,9 @@ export function IsbnScanner({ onResult, onClose }: IsbnScannerProps) {
           className="overflow-hidden rounded-2xl bg-slate-900 [&_video]:rounded-2xl"
         />
 
-        {error && <p className="mt-3 text-sm text-amber-600 dark:text-amber-400">{error}</p>}
+        {error && (
+          <p className="mt-3 text-sm text-amber-600 dark:text-amber-400">{error}</p>
+        )}
 
         <div className="mt-4 space-y-2">
           <label className="label" htmlFor="manual-isbn">

@@ -117,10 +117,8 @@ function normalizeBookList(list: unknown[]): Book[] {
     const raw = item as Record<string, unknown>;
     books.push({
       ...sanitized,
-      createdAt:
-        typeof raw.createdAt === 'string' ? raw.createdAt : now,
-      updatedAt:
-        typeof raw.updatedAt === 'string' ? raw.updatedAt : now,
+      createdAt: typeof raw.createdAt === 'string' ? raw.createdAt : now,
+      updatedAt: typeof raw.updatedAt === 'string' ? raw.updatedAt : now,
     });
   }
   return books;
@@ -188,7 +186,10 @@ export async function importFromFile(
   return { imported: books.length, mode };
 }
 
-export async function shareLibrary(books: Book[], settings: AppSettings): Promise<boolean> {
+export async function shareLibrary(
+  books: Book[],
+  settings: AppSettings,
+): Promise<boolean> {
   const payload: BackupPayload = {
     version: 1,
     exportedAt: new Date().toISOString(),

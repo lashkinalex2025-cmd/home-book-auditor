@@ -104,10 +104,18 @@ export function BookDetailPage() {
           <ArrowLeftIcon className="h-5 w-5" />
         </button>
         <div className="flex gap-1">
-          <button type="button" className="btn-ghost p-2" onClick={() => void handleShare()}>
+          <button
+            type="button"
+            className="btn-ghost p-2"
+            onClick={() => void handleShare()}
+          >
             <ShareIcon className="h-5 w-5" />
           </button>
-          <button type="button" className="btn-ghost p-2" onClick={() => void toggleFavorite()}>
+          <button
+            type="button"
+            className="btn-ghost p-2"
+            onClick={() => void toggleFavorite()}
+          >
             {book.isFavorite ? (
               <HeartSolid className="h-5 w-5 text-rose-500" />
             ) : (
@@ -117,7 +125,11 @@ export function BookDetailPage() {
           <Link to={`/books/${book.id}/edit`} className="btn-ghost p-2">
             <PencilSquareIcon className="h-5 w-5" />
           </Link>
-          <button type="button" className="btn-ghost p-2 text-rose-500" onClick={() => void handleDelete()}>
+          <button
+            type="button"
+            className="btn-ghost p-2 text-rose-500"
+            onClick={() => void handleDelete()}
+          >
             <TrashIcon className="h-5 w-5" />
           </button>
         </div>

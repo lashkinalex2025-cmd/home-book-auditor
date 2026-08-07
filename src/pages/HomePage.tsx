@@ -17,22 +17,13 @@ export function HomePage() {
   const books = useBooks();
   const stats = useMemo(() => computeStats(books), [books]);
 
-  const favorites = useMemo(
-    () => books.filter((b) => b.isFavorite).slice(0, 6),
-    [books],
-  );
+  const favorites = useMemo(() => books.filter((b) => b.isFavorite).slice(0, 6), [books]);
   const recent = useMemo(
-    () =>
-      [...books]
-        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-        .slice(0, 6),
+    () => [...books].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 6),
     [books],
   );
   const recentUpdates = useMemo(
-    () =>
-      [...books]
-        .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
-        .slice(0, 5),
+    () => [...books].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 5),
     [books],
   );
 

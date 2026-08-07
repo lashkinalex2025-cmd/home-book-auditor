@@ -90,7 +90,10 @@ export function sanitizeBookImport(raw: unknown): BookFormValues | null {
     rating: ratingRaw === undefined || ratingRaw === null ? 0 : Number(ratingRaw),
     notes: sanitizeText(o.notes, 5000),
     tags: Array.isArray(o.tags)
-      ? o.tags.map((t) => sanitizeText(t, 50)).filter(Boolean).slice(0, 30)
+      ? o.tags
+          .map((t) => sanitizeText(t, 50))
+          .filter(Boolean)
+          .slice(0, 30)
       : typeof o.tags === 'string'
         ? o.tags
             .split(/[,;]/)

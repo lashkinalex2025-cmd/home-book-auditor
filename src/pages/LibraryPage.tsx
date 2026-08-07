@@ -26,10 +26,7 @@ export function LibraryPage() {
   });
 
   const facets = useMemo(() => collectFacets(books), [books]);
-  const filtered = useMemo(
-    () => filterAndSortBooks(books, filters),
-    [books, filters],
-  );
+  const filtered = useMemo(() => filterAndSortBooks(books, filters), [books, filters]);
 
   return (
     <div className="space-y-4">

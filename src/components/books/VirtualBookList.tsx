@@ -11,7 +11,8 @@ interface VirtualBookListProps {
 export function VirtualBookList({ books }: VirtualBookListProps) {
   const parentRef = useRef<HTMLDivElement>(null);
   const { settings } = useSettings();
-  const rowHeight = settings.cardSize === 'lg' ? 168 : settings.cardSize === 'sm' ? 112 : 140;
+  const rowHeight =
+    settings.cardSize === 'lg' ? 168 : settings.cardSize === 'sm' ? 112 : 140;
 
   const virtualizer = useVirtualizer({
     count: books.length,
