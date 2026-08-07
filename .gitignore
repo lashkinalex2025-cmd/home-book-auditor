@@ -1,0 +1,56 @@
+# Dependencies
+node_modules
+
+# Build
+dist
+dev-dist
+*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Capacitor / Android local
+android/.gradle
+android/app/build
+android/build
+android/captures
+android/local.properties
+android/*.iml
+android/.idea
+*.keystore
+!debug.keystore
+
+# Test / coverage
+coverage
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Misc
+*.tsbuildinfo
+.cache
+.temp
+prompt_text.txt
+*.docx

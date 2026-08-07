@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
+}
+
+@layer components {
+  .app-shell {
+    @apply min-h-dvh bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+    padding-top: var(--safe-top);
+    padding-bottom: calc(4.5rem + var(--safe-bottom));
+  }
+
+  .card {
+    @apply rounded-3xl border border-slate-200/80 bg-white shadow-card
+      dark:border-slate-800 dark:bg-slate-900 dark:shadow-card-dark;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5
+      text-sm font-semibold transition active:scale-[0.98] disabled:opacity-50
+      disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-700 text-white hover:bg-brand-600 dark:bg-brand-600
+      dark:hover:bg-brand-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-slate-100 text-slate-800 hover:bg-slate-200 dark:bg-slate-800
+      dark:text-slate-100 dark:hover:bg-slate-700;
+  }
+
+  .btn-danger {
+    @apply btn bg-rose-600 text-white hover:bg-rose-500;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-700 hover:bg-slate-100 dark:text-slate-200
+      dark:hover:bg-slate-800;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5
+      text-sm outline-none transition placeholder:text-slate-400
+      focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20
+      dark:border-slate-700 dark:bg-slate-900 dark:placeholder:text-slate-500;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500
+      dark:text-slate-400;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold tracking-tight text-slate-900 dark:text-white;
+  }
+
+  .page-subtitle {
+    @apply text-sm text-slate-500 dark:text-slate-400;
+  }
+}
+
+/* Custom scrollbar */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(148 163 184 / 0.5);
+    border-radius: 999px;
+  }
+}
+
+/* Drop zone highlight */
+.drop-active {
+  @apply ring-2 ring-brand-500 ring-offset-2 dark:ring-offset-slate-950;
+}

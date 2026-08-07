@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Домашний книжный аудитор</string>
+    <string name="title_activity_main">Домашний книжный аудитор</string>
+    <string name="package_name">ru.homebookauditor.app</string>
+    <string name="custom_url_scheme">ru.homebookauditor.app</string>
+</resources>
