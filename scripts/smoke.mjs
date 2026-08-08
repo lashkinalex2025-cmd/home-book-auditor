@@ -37,6 +37,18 @@ page.on('console', (msg) => {
 
 try {
   await page.goto(base, { waitUntil: 'networkidle', timeout: 60000 });
+  // сброс SW/кэша — иначе на GitHub Pages может подтянуться старая сборка
+  await page.evaluate(async () => {
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) await r.unregister();
+    }
+    if (typeof caches !== 'undefined') {
+      const keys = await caches.keys();
+      for (const k of keys) await caches.delete(k);
+    }
+  });
+  await page.reload({ waitUntil: 'networkidle', timeout: 60000 });
   await page.waitForSelector('text=Домашний книжный аудитор', { timeout: 20000 });
   ok('Home title visible');
 
@@ -70,11 +82,16 @@ try {
   await page.locator('#genre').fill('Тест');
   await page.getByRole('button', { name: /Добавить книгу/i }).click();
   await page.waitForURL(/#\/books\/\d+/, { timeout: 15000 });
+  // дождаться именно карточки (не формы): кнопка «Добавить книгу» исчезает
   await page.waitForSelector('text=Тестовая книга Smoke', { timeout: 10000 });
+  await page
+    .locator('text=Добавить книгу')
+    .waitFor({ state: 'detached', timeout: 15000 });
+  await page.waitForSelector('text=Электронная книга', { timeout: 10000 });
+  await page.waitForSelector('text=Место хранения', { timeout: 10000 });
   ok('Book created and detail opened');
 
   // Ebook panel present on detail
-  await page.waitForSelector('text=Электронная книга', { timeout: 10000 });
   ok('Ebook panel visible');
 
   // Upload a simple TXT ebook via file input
@@ -89,13 +106,13 @@ try {
       'utf-8',
     ),
   });
+  await page.waitForSelector('text=Электронная книга загружена', { timeout: 15000 });
   await page.waitForSelector('text=smoke-ebook.txt', { timeout: 10000 });
+  const readLink = page.locator('a', { hasText: /Читать/ });
+  await readLink.first().waitFor({ timeout: 15000 });
   ok('Ebook file uploaded');
 
-  await page
-    .getByRole('link', { name: /Читать/i })
-    .first()
-    .click();
+  await readLink.first().click();
   await page.waitForURL(/#\/books\/\d+\/read/, { timeout: 15000 });
   await page.waitForSelector('text=тестовый текст электронной книги', {
     timeout: 15000,

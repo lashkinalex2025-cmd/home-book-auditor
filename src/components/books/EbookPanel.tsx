@@ -59,7 +59,11 @@ export function EbookPanel({
     }
 
     if (bookId == null) {
-      onPendingFileChange?.(file);
+      if (!onPendingFileChange) {
+        toast('Сначала сохраните карточку книги, затем загрузите файл', 'error');
+        return;
+      }
+      onPendingFileChange(file);
       toast(`Файл «${file.name}» будет сохранён вместе с книгой`, 'success');
       return;
     }
