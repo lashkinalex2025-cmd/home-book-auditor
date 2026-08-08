@@ -27,6 +27,16 @@ export const STATUS_COLORS: Record<BookStatus, string> = {
   gifted: 'bg-pink-100 text-pink-800 dark:bg-pink-900/40 dark:text-pink-200',
 };
 
+export const EBOOK_FORMATS = ['epub', 'pdf', 'txt', 'fb2'] as const;
+export type EbookFormat = (typeof EBOOK_FORMATS)[number];
+
+export const EBOOK_FORMAT_LABELS: Record<EbookFormat, string> = {
+  epub: 'EPUB',
+  pdf: 'PDF',
+  txt: 'TXT',
+  fb2: 'FB2',
+};
+
 export interface Book {
   id?: number;
   title: string;
@@ -48,7 +58,24 @@ export interface Book {
   tags: string[];
   coverDataUrl: string | null;
   isFavorite: boolean;
+  /** Имя файла электронной книги (метаданные; сам файл в таблице ebooks) */
+  ebookFileName: string | null;
+  ebookFormat: EbookFormat | null;
+  ebookSize: number | null;
+  /** Прогресс чтения: страница, CFI EPUB или offset */
+  ebookProgress: string | null;
   createdAt: string;
+  updatedAt: string;
+}
+
+/** Бинарный файл электронной книги (отдельная таблица IndexedDB) */
+export interface EbookBlobRecord {
+  bookId: number;
+  data: Blob;
+  fileName: string;
+  mimeType: string;
+  format: EbookFormat;
+  size: number;
   updatedAt: string;
 }
 
@@ -121,6 +148,10 @@ export const EMPTY_BOOK: BookInput = {
   tags: [],
   coverDataUrl: null,
   isFavorite: false,
+  ebookFileName: null,
+  ebookFormat: null,
+  ebookSize: null,
+  ebookProgress: null,
 };
 
 export interface BackupPayload {

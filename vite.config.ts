@@ -85,6 +85,7 @@ export default defineConfig({
           forms: ['react-hook-form', 'zod', '@hookform/resolvers'],
           motion: ['framer-motion'],
           xlsx: ['xlsx'],
+          epub: ['epubjs', 'jszip'],
         },
       },
     },

@@ -38,6 +38,28 @@ export const bookSchema = z.object({
   tags: z.array(z.string().trim().min(1).max(50)).max(30),
   coverDataUrl: z.string().nullable(),
   isFavorite: z.boolean(),
+  ebookFileName: z
+    .string()
+    .trim()
+    .max(300)
+    .nullable()
+    .optional()
+    .transform((v) => v ?? null),
+  ebookFormat: z
+    .enum(['epub', 'pdf', 'txt', 'fb2'])
+    .nullable()
+    .optional()
+    .transform((v) => v ?? null),
+  ebookSize: z
+    .union([z.number().int().min(0).max(100_000_000), z.null()])
+    .optional()
+    .transform((v) => v ?? null),
+  ebookProgress: z
+    .string()
+    .max(2000)
+    .nullable()
+    .optional()
+    .transform((v) => v ?? null),
 });
 
 export type BookFormValues = z.infer<typeof bookSchema>;
@@ -107,6 +129,11 @@ export function sanitizeBookImport(raw: unknown): BookFormValues | null {
         ? o.coverDataUrl.slice(0, 2_000_000)
         : null,
     isFavorite: Boolean(o.isFavorite),
+    // бинарные e-book файлы не импортируются из JSON/CSV — только метаданные сбрасываем
+    ebookFileName: null,
+    ebookFormat: null,
+    ebookSize: null,
+    ebookProgress: null,
   };
 
   const parsed = bookSchema.safeParse(candidate);

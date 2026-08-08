@@ -2,9 +2,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { BookForm } from '@/components/books/BookForm';
 import { useBook } from '@/hooks/useBooks';
-import { addBook, updateBook } from '@/db/database';
+import { addBook, saveEbookFile, updateBook } from '@/db/database';
 import type { BookFormValues } from '@/lib/validation';
 import { useToast } from '@/components/ui/Toast';
+import { validateEbookFile } from '@/lib/ebook';
 
 export function BookFormPage() {
   const { id } = useParams();
@@ -14,14 +15,63 @@ export function BookFormPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  async function handleSubmit(values: BookFormValues) {
+  async function attachEbook(targetId: number, file: File) {
+    const check = validateEbookFile(file);
+    if (!check.ok) {
+      toast(check.error, 'error');
+      return;
+    }
+    await saveEbookFile(targetId, file, check.format, check.mimeType);
+  }
+
+  async function handleSubmit(values: BookFormValues, pendingEbook?: File | null) {
     try {
+      // метаданные файла выставляются saveEbookFile; в карточке не дублируем
+      const {
+        ebookFileName: _fn,
+        ebookFormat: _ff,
+        ebookSize: _fs,
+        ebookProgress: _fp,
+        ...cardValues
+      } = values;
+
       if (isNew) {
-        const newId = await addBook(values);
+        const newId = await addBook({
+          ...cardValues,
+          ebookFileName: null,
+          ebookFormat: null,
+          ebookSize: null,
+          ebookProgress: null,
+        });
+        if (pendingEbook) {
+          try {
+            await attachEbook(newId, pendingEbook);
+          } catch {
+            toast('Книга сохранена, но файл e-book не удалось загрузить', 'error');
+            navigate(`/books/${newId}`, { replace: true });
+            return;
+          }
+        }
         toast('Книга добавлена', 'success');
         navigate(`/books/${newId}`, { replace: true });
       } else if (bookId != null) {
-        await updateBook(bookId, values);
+        await updateBook(bookId, {
+          ...cardValues,
+          // не затираем ebook-метаданные при обычном сохранении формы
+          ebookFileName: book?.ebookFileName ?? null,
+          ebookFormat: book?.ebookFormat ?? null,
+          ebookSize: book?.ebookSize ?? null,
+          ebookProgress: book?.ebookProgress ?? null,
+        });
+        if (pendingEbook) {
+          try {
+            await attachEbook(bookId, pendingEbook);
+          } catch {
+            toast('Изменения сохранены, но файл e-book не удалось загрузить', 'error');
+            navigate(`/books/${bookId}`, { replace: true });
+            return;
+          }
+        }
         toast('Изменения сохранены', 'success');
         navigate(`/books/${bookId}`, { replace: true });
       }

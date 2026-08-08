@@ -12,12 +12,13 @@ import { compressImageFile } from '@/lib/image';
 import { BOOK_STATUSES, EMPTY_BOOK, STATUS_LABELS, type Book } from '@/types/book';
 import { StarRating } from '@/components/ui/StarRating';
 import { BookCover } from './BookCover';
+import { EbookPanel } from './EbookPanel';
 import { IsbnScanner } from './IsbnScanner';
 import { useToast } from '@/components/ui/Toast';
 
 interface BookFormProps {
   initial?: Book;
-  onSubmit: (values: BookFormValues) => Promise<void>;
+  onSubmit: (values: BookFormValues, pendingEbook?: File | null) => Promise<void>;
   submitLabel?: string;
 }
 
@@ -38,6 +39,7 @@ export function BookForm({
   const [tagInput, setTagInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
+  const [pendingEbook, setPendingEbook] = useState<File | null>(null);
 
   const {
     register,
@@ -70,6 +72,10 @@ export function BookForm({
           tags: initial.tags ?? [],
           coverDataUrl: initial.coverDataUrl,
           isFavorite: initial.isFavorite,
+          ebookFileName: initial.ebookFileName ?? null,
+          ebookFormat: initial.ebookFormat ?? null,
+          ebookSize: initial.ebookSize ?? null,
+          ebookProgress: initial.ebookProgress ?? null,
         }
       : {
           title: EMPTY_BOOK.title,
@@ -91,6 +97,10 @@ export function BookForm({
           tags: EMPTY_BOOK.tags,
           coverDataUrl: EMPTY_BOOK.coverDataUrl,
           isFavorite: EMPTY_BOOK.isFavorite,
+          ebookFileName: EMPTY_BOOK.ebookFileName,
+          ebookFormat: EMPTY_BOOK.ebookFormat,
+          ebookSize: EMPTY_BOOK.ebookSize,
+          ebookProgress: EMPTY_BOOK.ebookProgress,
         },
   });
 
@@ -130,7 +140,8 @@ export function BookForm({
   async function submit(values: BookFormValues) {
     setBusy(true);
     try {
-      await onSubmit(values);
+      // pendingEbook: File — прикрепить; null — без изменений (если файл не выбирали)
+      await onSubmit(values, pendingEbook);
     } finally {
       setBusy(false);
     }
@@ -413,6 +424,19 @@ export function BookForm({
             В избранном
           </label>
         </div>
+
+        <EbookPanel
+          book={
+            initial ?? {
+              ...EMPTY_BOOK,
+              title: title || '',
+              createdAt: '',
+              updatedAt: '',
+            }
+          }
+          pendingFile={pendingEbook}
+          onPendingFileChange={setPendingEbook}
+        />
 
         <button type="submit" className="btn-primary w-full py-3" disabled={busy}>
           {busy ? 'Сохранение…' : submitLabel}

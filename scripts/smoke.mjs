@@ -73,6 +73,34 @@ try {
   await page.waitForSelector('text=Тестовая книга Smoke', { timeout: 10000 });
   ok('Book created and detail opened');
 
+  // Ebook panel present on detail
+  await page.waitForSelector('text=Электронная книга', { timeout: 10000 });
+  ok('Ebook panel visible');
+
+  // Upload a simple TXT ebook via file input
+  const ebookInput = page.locator('input[type="file"][accept*=".epub"], input[type="file"][accept*="epub"]').first();
+  await ebookInput.setInputFiles({
+    name: 'smoke-ebook.txt',
+    mimeType: 'text/plain',
+    buffer: Buffer.from(
+      'Глава 1\n\nЭто тестовый текст электронной книги для smoke-теста.\nВторая строка.',
+      'utf-8',
+    ),
+  });
+  await page.waitForSelector('text=smoke-ebook.txt', { timeout: 10000 });
+  ok('Ebook file uploaded');
+
+  await page.getByRole('link', { name: /Читать/i }).first().click();
+  await page.waitForURL(/#\/books\/\d+\/read/, { timeout: 15000 });
+  await page.waitForSelector('text=тестовый текст электронной книги', {
+    timeout: 15000,
+  });
+  ok('Ebook reader opened and shows text');
+
+  await page.getByRole('button', { name: 'Назад' }).click();
+  await page.waitForURL(/#\/books\/\d+$/, { timeout: 10000 });
+  ok('Returned from reader to book detail');
+
   await page.goto(`${base}/#/library`, { waitUntil: 'networkidle' });
   await page.waitForSelector('text=Тестовая книга Smoke', { timeout: 10000 });
   ok('Book appears in library');

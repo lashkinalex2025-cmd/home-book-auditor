@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeftIcon,
+  BookOpenIcon,
   HeartIcon,
   PencilSquareIcon,
   ShareIcon,
@@ -9,11 +10,13 @@ import {
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
 import { useBook } from '@/hooks/useBooks';
 import { BookCover } from '@/components/books/BookCover';
+import { EbookPanel } from '@/components/books/EbookPanel';
 import { StarRating } from '@/components/ui/StarRating';
 import { STATUS_COLORS, STATUS_LABELS } from '@/types/book';
 import { deleteBook, updateBook } from '@/db/database';
 import { useToast } from '@/components/ui/Toast';
 import { useSettings } from '@/context/SettingsContext';
+import { hasEbook } from '@/lib/ebook';
 
 export function BookDetailPage() {
   const { id } = useParams();
@@ -174,8 +177,18 @@ export function BookDetailPage() {
               ))}
             </div>
           )}
+          {hasEbook(book) && (
+            <div className="mt-4 flex justify-center sm:justify-start">
+              <Link to={`/books/${book.id}/read`} className="btn-primary">
+                <BookOpenIcon className="h-5 w-5" />
+                Читать электронную книгу
+              </Link>
+            </div>
+          )}
         </div>
       </div>
+
+      <EbookPanel book={book} />
 
       <div className="card divide-y divide-slate-100 p-2 dark:divide-slate-800">
         {rows.map((r) => (

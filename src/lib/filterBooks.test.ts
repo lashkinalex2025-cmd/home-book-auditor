@@ -23,6 +23,10 @@ const base: Book = {
   tags: ['эпос'],
   coverDataUrl: null,
   isFavorite: true,
+  ebookFileName: null,
+  ebookFormat: null,
+  ebookSize: null,
+  ebookProgress: null,
   createdAt: '2024-01-01T00:00:00.000Z',
   updatedAt: '2024-06-01T00:00:00.000Z',
 };

@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { HeartIcon } from '@heroicons/react/24/solid';
+import { BookOpenIcon } from '@heroicons/react/24/outline';
 import { memo } from 'react';
 import type { Book } from '@/types/book';
 import { STATUS_COLORS, STATUS_LABELS } from '@/types/book';
+import { hasEbook } from '@/lib/ebook';
 import { BookCover } from './BookCover';
 import { StarRating } from '@/components/ui/StarRating';
 
@@ -25,12 +27,18 @@ export const BookCard = memo(function BookCard({ book, size = 'md' }: BookCardPr
           <h3 className="line-clamp-2 font-semibold leading-snug group-hover:text-brand-700 dark:group-hover:text-brand-300">
             {book.title}
           </h3>
-          {book.isFavorite && (
-            <HeartIcon
-              className="h-4 w-4 shrink-0 text-rose-500"
-              aria-label="Избранное"
-            />
-          )}
+          <div className="flex shrink-0 items-center gap-1">
+            {hasEbook(book) && (
+              <BookOpenIcon
+                className="h-4 w-4 text-brand-600 dark:text-brand-400"
+                aria-label="Есть электронная книга"
+                title="Есть электронная книга"
+              />
+            )}
+            {book.isFavorite && (
+              <HeartIcon className="h-4 w-4 text-rose-500" aria-label="Избранное" />
+            )}
+          </div>
         </div>
         <p className="mt-0.5 truncate text-sm text-slate-500">
           {book.author || 'Без автора'}
@@ -44,6 +52,11 @@ export const BookCard = memo(function BookCard({ book, size = 'md' }: BookCardPr
           {book.genre && (
             <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">
               {book.genre}
+            </span>
+          )}
+          {hasEbook(book) && book.ebookFormat && (
+            <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[10px] font-semibold uppercase text-brand-800 dark:bg-brand-950 dark:text-brand-200">
+              {book.ebookFormat}
             </span>
           )}
         </div>

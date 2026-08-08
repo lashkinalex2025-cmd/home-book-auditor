@@ -29,6 +29,9 @@ const BookFormPage = lazy(() =>
 const BookDetailPage = lazy(() =>
   import('@/pages/BookDetailPage').then((m) => ({ default: m.BookDetailPage })),
 );
+const EbookReaderPage = lazy(() =>
+  import('@/pages/EbookReaderPage').then((m) => ({ default: m.EbookReaderPage })),
+);
 
 function PageLoader() {
   return (
@@ -104,6 +107,7 @@ export default function App() {
           <DropZone>
             <Suspense fallback={<PageLoader />}>
               <Routes>
+                <Route path="books/:id/read" element={<EbookReaderPage />} />
                 <Route element={<AppShell />}>
                   <Route index element={<HomePage />} />
                   <Route path="library" element={<LibraryPage />} />
