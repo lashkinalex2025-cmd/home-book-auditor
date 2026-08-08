@@ -78,7 +78,9 @@ try {
   ok('Ebook panel visible');
 
   // Upload a simple TXT ebook via file input
-  const ebookInput = page.locator('input[type="file"][accept*=".epub"], input[type="file"][accept*="epub"]').first();
+  const ebookInput = page
+    .locator('input[type="file"][accept*=".epub"], input[type="file"][accept*="epub"]')
+    .first();
   await ebookInput.setInputFiles({
     name: 'smoke-ebook.txt',
     mimeType: 'text/plain',
@@ -90,7 +92,10 @@ try {
   await page.waitForSelector('text=smoke-ebook.txt', { timeout: 10000 });
   ok('Ebook file uploaded');
 
-  await page.getByRole('link', { name: /Читать/i }).first().click();
+  await page
+    .getByRole('link', { name: /Читать/i })
+    .first()
+    .click();
   await page.waitForURL(/#\/books\/\d+\/read/, { timeout: 15000 });
   await page.waitForSelector('text=тестовый текст электронной книги', {
     timeout: 15000,
